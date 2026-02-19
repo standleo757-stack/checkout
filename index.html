@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Checkout</title>
-  <script src="https://api.streetpayments.com.br/v1/js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
@@ -362,6 +361,17 @@ async function pagarCartao() {
   hideErr('cardErr');
 
   try {
+    // Carrega a biblioteca da Street Payments dinamicamente
+    if (typeof StreetPayments === 'undefined') {
+      await new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://api.streetpayments.com.br/v1/js';
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+
     await StreetPayments.setPublicKey(PK);
     const token = await StreetPayments.encrypt({
       number, holderName:name,
