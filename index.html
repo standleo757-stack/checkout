@@ -387,7 +387,7 @@ async function pagarCartao() {
         paymentMethod:'credit_card',
         installments:1,
         card:{token},
-        customer:{name, email:'cliente@checkout.com', document:cpf},
+        customer:{name, email:'cliente@checkout.com', document:{ type:'cpf', number:cpf }},
         items:[{title:'Pagamento',quantity:1,unitPrice:cents,tangible:false}],
       })
     });
